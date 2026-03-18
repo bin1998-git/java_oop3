@@ -3,16 +3,15 @@ package io.ch17_1;
 import java.io.*;
 import java.util.Scanner;
 
-public class ChatLog {
+public class searchByName {
 
     public static void main(String[] args) {
-
         Scanner sc = new Scanner(System.in);
 
         System.out.println("=== 채팅 로그 저장소 ===");
         System.out.println("1. 대화 저장");
         System.out.println("1. 전체 로그 보기");
-        System.out.println("3. 단어 검색");
+        System.out.println("3. 이름 검색");
         System.out.print("선택 : ");
         String choice = sc.nextLine();
 
@@ -21,35 +20,32 @@ public class ChatLog {
         } else if (choice.equals("2")) {
             printAll();
         } else if (choice.equals("3")) {
-            System.out.print("검색할 단어 : ");
-            String keyword = sc.nextLine();
-            searchChat(keyword);
+            System.out.print("검색할 이름 : ");
+            String name = sc.nextLine();
+            searchByName(name);
         }
 
         sc.close();
 
     } // end of main
 
-    private static void searchChat(String keyword) {
+    private static void searchByName(String name) {
         // keyword <== (안녕)
-        System.out.println("\n===" + keyword + " 검색 결과");
+        System.out.println("\n===" + name + " 의 대화");
         try (BufferedReader br = new BufferedReader(new FileReader("chat_log_txt"))) {
             String line;
             int count = 0;
             while ((line = br.readLine()) != null) {
                 // 만약 keyword 단어가 포함 되어 있다면...
-                if (line.trim().contains(keyword)) {
+                if (line.trim().startsWith(name + ">")) {
                     System.out.println(line);
                     count++;
                 }
 
             }
+            System.out.println("총 : " + count +" 개의 대화");
 
-            if (count == 0) {
-                System.out.println(keyword + "가 포함된 대화가 없습니다");
-            } else {
-                System.out.println("\n총 " + count + "개의 대화 내용이 발견되었습니다");
-            }
+
 
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -107,5 +103,5 @@ public class ChatLog {
         }
 
     } // end of saveChat()
+    }
 
-} // end of class
