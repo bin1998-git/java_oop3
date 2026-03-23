@@ -1,4 +1,4 @@
-package client.ch03;
+package client.ch04;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -6,12 +6,19 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.Scanner;
 
-public class MultiThreadedClient {
+public class ChatClient {
 
     public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        System.out.print("채팅 이름을 입력하세요 : ");
+        String name = sc.nextLine();
 
-        try (Socket socket = new Socket("192.168.4.12", 5000)) {
+
+        try (Socket socket = new Socket("192.168.4.101", 5000)) {
+
+            System.out.println(name + "님, 채팅방 입장 했음(종료 : exit)");
 
             // 소켓에서 연결 할 입력, 출력 스트림 2개가 필요하다
             PrintWriter writer = new PrintWriter(socket.getOutputStream(), true);
@@ -28,11 +35,8 @@ public class MultiThreadedClient {
                 public void run() {
                     try {
                         String serverMessage;
-                        while ( (serverMessage = reader.readLine()) != null) {
-                            if ("exit".equalsIgnoreCase(serverMessage)) {
-                                System.out.println("서버가 종료되었습니다");
-                                break;
-                            }
+                        while ((serverMessage = reader.readLine()) != null) {
+
                             System.out.println("서버 : " + serverMessage);
                         }
 
@@ -50,21 +54,24 @@ public class MultiThreadedClient {
 
                     try {
                         String clientMessage;
-                        while ( (clientMessage = keyboardReader.readLine()) != null) {
-                            writer.println(clientMessage);
+                        while ((clientMessage = keyboardReader.readLine()) != null) {
+
+
                             if ("exit".equalsIgnoreCase(clientMessage)) {
-                                System.out.println("클라이언트가 종료했습니다");
+                                System.out.println("채팅방 종료");
+                                writer.println("[" + name + "] 님이 퇴장 했습니다");
                                 break;
                             }
-                        }
+                            // 서버에 메세지 전송
+                            writer.println("[" + name + "]" + clientMessage);
 
+                        }
 
                     } catch (IOException e) {
                         System.out.println("메세지 전송 중 오류가 발생했습니다");
                     }
                 }
             });
-
 
 
             readThread.start();
@@ -78,8 +85,6 @@ public class MultiThreadedClient {
         } catch (IOException | InterruptedException e) {
             throw new RuntimeException(e);
         }
-
-
 
 
     } // end of main
