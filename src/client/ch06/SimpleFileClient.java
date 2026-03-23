@@ -54,6 +54,7 @@ public class SimpleFileClient {
                     out.write(buffer,0,bytesRead);
                 }
                 out.flush();
+                socket.shutdownOutput();
             }
             System.out.println("전송 완료 : " + fileName);
 
