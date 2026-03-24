@@ -45,16 +45,17 @@ public class MemberRepository {
 
 
     // 이메일로 회원 찾기
-    public List<Member> findByEmail(String email) {
-        List<Member> result = new ArrayList<>();
-
-        for (Member member : memberList) {
-            if (member.getEmail().equalsIgnoreCase(email)) {
-                result.add(member);
+    public Member findByEmail(String email) {
+        // 전체 순회 전에 존재 여부부터 확인 ? --> 빠르게 존재 여부 확인
+        if (emailSet.contains(email) == false) {
+            return  null;
+        }
+        for (Member m : memberList) {
+            if (m.getEmail().equalsIgnoreCase(email)) {
+                return m;
             }
         }
-        return result;
-
+        return null;
     }
 
     // 나이 범위로 검색
@@ -62,7 +63,7 @@ public class MemberRepository {
         List<Member> result = new ArrayList<>();
         for (Member m : memberList) {
             if (m.getAge() >= min && m.getAge() <= max) {
-
+                result.add(m);
             }
         }
         return result;
@@ -124,4 +125,6 @@ public class MemberRepository {
     public int count() {
         return memberList.size();
     }
+
+
 }

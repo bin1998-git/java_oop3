@@ -98,17 +98,17 @@ public class MemberMain {
                     }
                 }
 
-            } else if (choice.equals("7")) {
-                System.out.print("조회할 이메일 : ");
-                String email = sc.nextLine();
-                List<Member> result = repo.findByEmail(email);
-                if (result.isEmpty()) {
-                    System.out.println("해당 이메일의 회원이 없습니다.");
-                } else {
-                    for (Member m : result) {
-                        System.out.println(m);
-                    }
-                }
+//            } else if (choice.equals("7")) {
+//                System.out.print("조회할 이메일 : ");
+//                String email = sc.nextLine();
+//               Member result = repo.findByEmail(email);
+//                if (result.isEmpty()) {
+//                    System.out.println("해당 이메일의 회원이 없습니다.");
+//                } else {
+//                    for (Member m : result) {
+//                        System.out.println(m);
+//                    }
+//                }
             } else if (choice.equals("8")) {
                 System.out.println("최소나이 : ");
                 int minAge = sc.nextInt();
