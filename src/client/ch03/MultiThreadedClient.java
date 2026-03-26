@@ -10,7 +10,7 @@ import java.net.UnknownHostException;
 public class MultiThreadedClient {
 
     public static void main(String[] args) {
-
+ //zzzz
         try (Socket socket = new Socket("192.168.4.12", 5000)) {
 
             // 소켓에서 연결 할 입력, 출력 스트림 2개가 필요하다
