@@ -1,6 +1,9 @@
 package http.gson;
 
+
+
 import com.google.gson.Gson;
+import http.gson.Post;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -9,6 +12,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 public class PostClient {
+
     public static void main(String[] args) {
 
         String urlString = "https://jsonplaceholder.typicode.com/posts/100";
@@ -16,7 +20,7 @@ public class PostClient {
 
 
         try {
-          URL url = new URL(urlString);
+            URL url = new URL(urlString);
             connection = (HttpURLConnection) url.openConnection();
 
             connection.setRequestMethod("GET");
@@ -29,15 +33,15 @@ public class PostClient {
                                  new InputStreamReader(connection.getInputStream()))) {
                 StringBuffer body = new StringBuffer();
                 String line;
-                    while ( (line = reader.readLine()) != null) {
-                        body.append(line);
-                    }
+                while ((line = reader.readLine()) != null) {
+                    body.append(line);
+                }
 
-                    String jsonString = body.toString();
+                String jsonString = body.toString();
                 System.out.println("Json 응답 : " + jsonString);
 
                 Gson gson = new Gson();
-               Post post = gson.fromJson(jsonString, Post.class);
+                Post post = gson.fromJson(jsonString, Post.class);
                 System.out.println(post.getId());
                 System.out.println(post.getUserId());
                 System.out.println(post.getTitle());
@@ -46,11 +50,9 @@ public class PostClient {
             }
 
 
-
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-
 
 
     }
